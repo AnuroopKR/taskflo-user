@@ -81,7 +81,7 @@ const res = await fetch(
       <div className="flex items-center gap-8">
         {/* Time */}
         <div className="text-right">
-<p className="text-4xl font-bold text-gray-800 tracking-tight">
+<p className="text-3xl font-bold text-gray-800 tracking-tight">
   {mounted
     ? time.toLocaleTimeString("en-IN", {
         hour: "2-digit",
