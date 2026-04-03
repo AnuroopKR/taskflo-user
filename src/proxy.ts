@@ -32,7 +32,9 @@ export async function proxy(request: NextRequest) {
     if (!backendResponse.ok) {
       return redirectToLogin(request, pathname);
     }
-
+    if(pathname==="/login"){
+return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
     // ✅ Create response (NO redirect loop)
     const response = NextResponse.next();
 
@@ -59,5 +61,5 @@ function redirectToLogin(request: NextRequest, pathname: string) {
 }
 
 export const config = {
-  matcher: '/dashboard/:path*',
+  matcher:[ '/dashboard/:path*','/login']
 };
