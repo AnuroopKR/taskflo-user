@@ -3,12 +3,15 @@
 import api from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const searchParams = useSearchParams();
+const router = useRouter();
 
  const loginUser = async (data: {
   email: string;
@@ -28,7 +31,8 @@ const mutation = useMutation({
       localStorage.setItem("accessToken", data.accessToken);
 
       // ✅ redirect
-      window.location.href = "/dashboard";
+      const destination = searchParams.get('from') || '/';
+    router.push(destination);
     },
 
     onError: (error: any) => {
