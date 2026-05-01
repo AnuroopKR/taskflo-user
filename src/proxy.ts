@@ -1,6 +1,5 @@
-// proxy.ts
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -8,10 +7,9 @@ export async function proxy(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
-  console.log("Proxy cookies:", accessToken, refreshToken);
 
-  // 🚫 No refresh token → redirect
-  if (!refreshToken) {
+  // 🚫 No tokens → redirect
+  if (!accessToken && !refreshToken) {
     return redirectToLogin(request, pathname);
   }
 
@@ -21,45 +19,54 @@ export async function proxy(request: NextRequest) {
       {
         method: "GET",
         headers: {
-          // ✅ Forward ALL cookies safely
           cookie: request.headers.get("cookie") || "",
         },
-        cache: "no-store", // 🔥 IMPORTANT
+        cache: "no-store",
       }
     );
 
-    //  Invalid → redirect
+    // ❌ Invalid → redirect
     if (!backendResponse.ok) {
       return redirectToLogin(request, pathname);
     }
-    if(pathname==="/login"){
-return NextResponse.redirect(new URL('/dashboard', request.url));
+
+    // ✅ Prevent login access if already authenticated
+    if (pathname === "/login") {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
     }
-    // ✅ Create response (NO redirect loop)
+
     const response = NextResponse.next();
 
-    // 🔥 Handle multiple cookies properly
-    const setCookie = backendResponse.headers.get("set-cookie");
+    // ✅ Forward all cookies properly
+    const setCookies = backendResponse.headers.getSetCookie?.();
 
-    if (setCookie) {
-      response.headers.append("set-cookie", setCookie);
+    if (setCookies) {
+      setCookies.forEach((cookie) => {
+        response.headers.append("set-cookie", cookie);
+      });
     }
 
     return response;
 
   } catch (error) {
-    console.error("Proxy error:", error);
+    console.error("Middleware error:", error);
     return redirectToLogin(request, pathname);
   }
 }
 
 // 🔁 Helper
 function redirectToLogin(request: NextRequest, pathname: string) {
+  // 🚫 prevent loop
+  if (pathname === "/login") {
+    return NextResponse.next();
+  }
+
   const loginUrl = new URL('/login', request.url);
   loginUrl.searchParams.set('from', pathname);
+
   return NextResponse.redirect(loginUrl);
 }
 
 export const config = {
-  matcher:[ '/dashboard/:path*','/login']
+  matcher: ['/dashboard/:path*','/login'],
 };
