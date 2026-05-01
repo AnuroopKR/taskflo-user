@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
+import Link from "next/link";
+import Image from "next/image";
 import {
   Sidebar,
   SidebarContent,
@@ -12,16 +12,13 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-import { Home, CheckSquare, Settings, LogOut } from "lucide-react"
+import { Home, CheckSquare, Settings, LogOut } from "lucide-react";
 
 export function AppSidebar() {
   return (
-    <Sidebar
-    collapsible="icon"
-    className="bg-white border-r w-64">
-      
+    <Sidebar collapsible="icon" className="bg-[#fffdf5]  border-r w-64">
       {/* Logo */}
       <SidebarHeader className="px-6 py-5 text-xl font-bold flex items-center gap-2">
         <span className="text-yellow-500">●</span>
@@ -46,7 +43,6 @@ export function AppSidebar() {
 
       {/* Content */}
       <SidebarContent className="px-2">
-        
         {/* Main */}
         <SidebarGroup>
           <SidebarGroupLabel className="px-3 text-gray-400 text-xs">
@@ -54,19 +50,38 @@ export function AppSidebar() {
           </SidebarGroupLabel>
 
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton className="flex items-center gap-3 px-3 py-2 rounded-lg bg-yellow-50 text-yellow-700 font-medium">
-                <Home className="w-4 h-4" />
-                <Link href="/dashboard">Dashboard</Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-
-            <SidebarMenuItem>
-              <SidebarMenuButton className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-600">
-                <CheckSquare className="w-4 h-4" />
-                <Link href="/tasks">Tasks</Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            <Link href="/dashboard">
+              <SidebarMenuItem>
+                <SidebarMenuButton className="flex cursor-pointer items-center gap-3 px-3 py-2 rounded-lg bg-yellow-50 text-yellow-700 font-medium">
+                  <Home className="w-4 h-4" />
+                  Dashboard
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </Link>
+            <Link href="/dashboard/projects">
+              <SidebarMenuItem>
+                <SidebarMenuButton className="flex cursor-pointer items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-600">
+                  <CheckSquare className="w-4 h-4" />
+                  Project
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </Link>
+            <Link href="/dashboard/employees" className="cursor-pointer">
+              <SidebarMenuItem>
+                <SidebarMenuButton className="flex cursor-pointer items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-600">
+                  <CheckSquare className="w-4 h-4" />
+                  Employees
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </Link>
+            <Link href="/dashboard/tasks">
+              <SidebarMenuItem>
+                <SidebarMenuButton className="flex cursor-pointer items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-600">
+                  <CheckSquare className="w-4 h-4" />
+                  Tasks
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </Link>
           </SidebarMenu>
         </SidebarGroup>
 
@@ -85,7 +100,6 @@ export function AppSidebar() {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
-
       </SidebarContent>
 
       {/* Footer */}
@@ -100,5 +114,5 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
