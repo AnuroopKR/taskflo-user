@@ -63,10 +63,12 @@ export default function ProjectsPage() {
               className="bg-slate-50 border border-slate-100 rounded-2xl py-2 pl-10 pr-4 text-sm w-64 focus:bg-white focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none transition-all shadow-inner"
             />
           </div>
+          <Link href={'/dashboard/projects/create'}>
           <button className="flex items-center gap-2 bg-amber-500 text-white text-sm font-bold px-4 py-2 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100 transition-all active:scale-95">
             <Plus size={18} />
             <span>New</span>
           </button>
+          </Link>
         </div>
       </nav>
 
