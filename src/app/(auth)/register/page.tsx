@@ -3,9 +3,11 @@
 import api from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function CompanyRegisterPage() {
+  const router=useRouter()
   const [form, setForm] = useState({
     companyName: "",
     email: "",
@@ -18,7 +20,7 @@ export default function CompanyRegisterPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const loginUser = async (data: {
+  const registerUser = async (data: {
     companyName:string;
   email: string;
   name:string;
@@ -26,20 +28,21 @@ export default function CompanyRegisterPage() {
   confirmPassword:string;
 }) => {
   const res = await api.post("/auth/", data);
+
   return res.data;
 };
 
 const mutation = useMutation({
-    mutationFn: loginUser,
+    mutationFn: registerUser,
 
     onSuccess: (data) => {
       console.log("register success", data);
 
       // ✅ store token
-      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("emailToken", data.emailToken);
 
       // ✅ redirect
-    //   window.location.href = "/dashboard";
+    router.push('/user-otp')
     },
 
     onError: (error: any) => {
