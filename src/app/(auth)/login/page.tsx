@@ -125,7 +125,7 @@ const mutation = useMutation({
 
 
       {/* RIGHT SIDE */}
-            <div className="hidden lg:flex w-1/2 bg-linear-to-br from-yellow-100 to-white items-center justify-center p-10">
+            <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-yellow-100 to-white items-center justify-center p-10">
         <div className="max-w-md text-center space-y-6">
           <h1 className="text-4xl font-bold text-gray-800">
             Welcome to <span className="text-yellow-500">TaskFlow</span>
