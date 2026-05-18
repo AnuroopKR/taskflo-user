@@ -1,719 +1,27 @@
 "use client";
-// import React, { useState } from 'react';
-// import {
-//   ArrowLeft,
-//   Calendar,
-//   Clock,
-//   FileText,
-//   Paperclip,
-//   Send,
-//   CheckCircle2,
-//   AlertCircle,
-//   MoreHorizontal,
-//   User,
-//   MessageSquare,
-//   History,
-//   ExternalLink,
-//   ChevronRight,
-//   UploadCloud,
-//   X
-// } from 'lucide-react';
 
-// const App = () => {
-//   const [task, setTask] = useState({
-//     id: 'TSK-4829',
-//     title: 'Brand Identity Guidelines - Phase 2',
-//     description: 'Finalize the secondary color palette, typography scales, and social media templates. Ensure all assets are exported in SVG and PNG formats for the marketing team.',
-//     status: 'In Progress',
-//     priority: 'High',
-//     dueDate: 'Oct 12, 2024',
-//     assignee: { name: 'Sarah Jenkins', role: 'Lead Designer', avatar: 'SJ' },
-//     project: 'Rebrand 2024'
-//   });
-
-//   const [submissions, setSubmissions] = useState([
-//     {
-//       id: '1', // Converted to string for consistency
-//       date: 'Oct 08, 2024 • 02:30 PM',
-//       note: 'Initial draft of the color palette. I used the cool-tone variations we discussed in the last meeting.',
-//       files: ['brand_v1_draft.pdf'],
-//       status: 'Changes Requested',
-//       feedback: 'The blue is a bit too dark for web accessibility. Please check the contrast ratios.'
-//     },
-//     {
-//       id: '2', // Converted to string for consistency
-//       date: 'Oct 09, 2024 • 11:15 AM',
-//       note: 'Updated the blue shades to meet WCAG AA standards. Also added the typography scale.',
-//       files: ['brand_v2_final.pdf', 'assets.zip'],
-//       status: 'Approved',
-//       feedback: 'Excellent work! These look perfect.'
-//     }
-//   ]);
-
-//   const [formNote, setFormNote] = useState('');
-//   const [isSubmitting, setIsSubmitting] = useState(false);
-
-//   const handleSubmit = (e:any) => {
-//     e.preventDefault();
-//     if (!formNote.trim()) return;
-
-//     setIsSubmitting(true);
-//     // Simulate API delay
-//     setTimeout(() => {
-//       const newSubmission = {
-//         id: String(Date.now()), // Converted to string to match initial state
-//         date: new Date().toLocaleString(),
-//         note: formNote,
-//         files: ['new_submission_file.pdf'],
-//         status: 'Pending Review',
-//         feedback: ''
-//       };
-//       setSubmissions([newSubmission, ...submissions]);
-//       setFormNote('');
-//       setIsSubmitting(false);
-//     }, 800);
-//   };
-
-//   const getStatusBadge = (status:any) => {
-//     switch (status) {
-//       case 'Approved': return 'bg-emerald-50 text-emerald-700 border-emerald-100';
-//       case 'Changes Requested': return 'bg-amber-50 text-amber-700 border-amber-100';
-//       case 'Pending Review': return 'bg-blue-50 text-blue-700 border-blue-100';
-//       default: return 'bg-slate-50 text-slate-600 border-slate-100';
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-12">
-//       {/* Top Header Navigation */}
-//       <nav className="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between sticky top-0 z-10">
-//         <div className="flex items-center gap-4">
-//           <button className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-//             <ArrowLeft size={20} className="text-slate-600" />
-//           </button>
-//           <div className="flex items-center text-sm text-slate-500">
-//             <span>Projects</span>
-//             <ChevronRight size={14} className="mx-1" />
-//             <span className="font-medium text-slate-900">{task.project}</span>
-//           </div>
-//         </div>
-//         <div className="flex items-center gap-3">
-//           <button className="text-sm font-semibold text-slate-600 px-4 py-2 hover:bg-slate-100 rounded-lg transition-colors">
-//             Edit Task
-//           </button>
-//           <button className="bg-indigo-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-indigo-700 shadow-sm shadow-indigo-100 transition-all">
-//             Mark as Done
-//           </button>
-//         </div>
-//       </nav>
-
-//       <main className="max-w-6xl mx-auto mt-8 px-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-//         {/* Left Column: Task Details & History */}
-//         <div className="lg:col-span-2 space-y-8">
-
-//           {/* Main Task Card */}
-//           <section className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
-//             <div className="flex items-start justify-between mb-6">
-//               <div>
-//                 <div className="flex items-center gap-3 mb-2">
-//                   <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded tracking-wide uppercase">
-//                     {task.id}
-//                   </span>
-//                   <span className={`text-xs font-bold px-2 py-1 rounded border uppercase ${task.priority === 'High' ? 'bg-orange-50 text-orange-700 border-orange-100' : ''}`}>
-//                     {task.priority} Priority
-//                   </span>
-//                 </div>
-//                 <h1 className="text-3xl font-bold text-slate-900">{task.title}</h1>
-//               </div>
-//               <button className="p-2 text-slate-400 hover:text-slate-600">
-//                 <MoreHorizontal size={24} />
-//               </button>
-//             </div>
-
-//             <div className="prose prose-slate max-w-none">
-//               <p className="text-slate-600 leading-relaxed text-lg">
-//                 {task.description}
-//               </p>
-//             </div>
-
-//             <div className="mt-8 pt-8 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-3 gap-6">
-//               <div>
-//                 <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Status</span>
-//                 <div className="flex items-center gap-2 font-semibold text-slate-700">
-//                   <Clock size={16} className="text-blue-500" />
-//                   {task.status}
-//                 </div>
-//               </div>
-//               <div>
-//                 <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Due Date</span>
-//                 <div className="flex items-center gap-2 font-semibold text-slate-700">
-//                   <Calendar size={16} className="text-rose-500" />
-//                   {task.dueDate}
-//                 </div>
-//               </div>
-//               <div>
-//                 <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Project</span>
-//                 <div className="flex items-center gap-2 font-semibold text-slate-700">
-//                   <FileText size={16} className="text-indigo-500" />
-//                   {task.project}
-//                 </div>
-//               </div>
-//             </div>
-//           </section>
-
-//           {/* Submission Form */}
-//           <section className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-//             <div className="bg-slate-50/50 border-b border-slate-100 px-8 py-4">
-//               <h2 className="font-bold text-slate-800 flex items-center gap-2">
-//                 <UploadCloud size={18} className="text-indigo-600" />
-//                 Submit Your Work
-//               </h2>
-//             </div>
-//             <form onSubmit={handleSubmit} className="p-8">
-//               <div className="mb-6">
-//                 <label className="block text-sm font-semibold text-slate-700 mb-2">Submission Notes</label>
-//                 <textarea
-//                   rows={4}
-//                   value={formNote}
-//                   onChange={(e) => setFormNote(e.target.value)}
-//                   placeholder="Explain what has been completed or any specific details for the reviewer..."
-//                   className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all"
-//                 />
-//               </div>
-
-//               <div className="mb-8">
-//                 <label className="block text-sm font-semibold text-slate-700 mb-2">Attachments</label>
-//                 <div className="border-2 border-dashed border-slate-200 rounded-xl p-8 flex flex-col items-center justify-center bg-slate-50/30 hover:bg-slate-50 transition-colors cursor-pointer group">
-//                   <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3 group-hover:scale-110 transition-transform">
-//                     <Paperclip className="text-slate-400" size={20} />
-//                   </div>
-//                   <p className="text-sm font-medium text-slate-600">Click to upload or drag and drop</p>
-//                   <p className="text-xs text-slate-400 mt-1">Maximum file size: 50MB</p>
-//                 </div>
-//               </div>
-
-//               <div className="flex justify-end">
-//                 <button
-//                   type="submit"
-//                   disabled={isSubmitting || !formNote.trim()}
-//                   className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
-//                     isSubmitting || !formNote.trim()
-//                     ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-//                     : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-100'
-//                   }`}
-//                 >
-//                   <Send size={16} />
-//                   {isSubmitting ? 'Submitting...' : 'Submit for Review'}
-//                 </button>
-//               </div>
-//             </form>
-//           </section>
-
-//           {/* Submission History */}
-//           <section className="space-y-4">
-//             <h2 className="font-bold text-slate-800 text-lg flex items-center gap-2 px-2">
-//               <History size={18} className="text-slate-400" />
-//               Submission History
-//             </h2>
-
-//             <div className="space-y-4">
-//               {submissions.map((sub) => (
-//                 <div key={sub.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-//                   <div className="flex items-center justify-between px-6 py-4 border-b border-slate-50 bg-slate-50/30">
-//                     <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">{sub.date}</span>
-//                     <span className={`text-[10px] font-bold px-2 py-1 rounded-full border uppercase tracking-wider ${getStatusBadge(sub.status)}`}>
-//                       {sub.status}
-//                     </span>
-//                   </div>
-//                   <div className="p-6">
-//                     <p className="text-sm text-slate-700 mb-4 italic leading-relaxed">"{sub.note}"</p>
-
-//                     <div className="flex flex-wrap gap-2 mb-4">
-//                       {sub.files.map(file => (
-//                         <div key={file} className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-200 transition-colors cursor-pointer group">
-//                           <FileText size={14} className="text-slate-400 group-hover:text-slate-600" />
-//                           {file}
-//                           <ExternalLink size={12} className="ml-1 opacity-50" />
-//                         </div>
-//                       ))}
-//                     </div>
-
-//                     {sub.feedback && (
-//                       <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-100 flex gap-3">
-//                         <MessageSquare size={16} className="text-slate-400 mt-0.5 shrink-0" />
-//                         <div>
-//                           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Feedback from Reviewer</p>
-//                           <p className="text-sm text-slate-600">{sub.feedback}</p>
-//                         </div>
-//                       </div>
-//                     )}
-//                   </div>
-//                 </div>
-//               ))}
-//             </div>
-//           </section>
-//         </div>
-
-//         {/* Right Column: Sidebar Info */}
-//         <div className="space-y-6">
-//           {/* Assignee Card */}
-//           <section className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-//             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Assignee</h3>
-//             <div className="flex items-center gap-4">
-//               <div className="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-inner">
-//                 {task.assignee.avatar}
-//               </div>
-//               <div>
-//                 <h4 className="font-bold text-slate-900">{task.assignee.name}</h4>
-//                 <p className="text-sm text-slate-500">{task.assignee.role}</p>
-//               </div>
-//             </div>
-//             <button className="w-full mt-6 py-2 border border-slate-200 text-slate-600 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors">
-//               View Profile
-//             </button>
-//           </section>
-
-//           {/* Activity Mini-Feed */}
-//           <section className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-//             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Activity</h3>
-//             <div className="space-y-5">
-//               <div className="flex gap-3 relative">
-//                 <div className="absolute left-[7px] top-4 bottom-[-20px] w-[2px] bg-slate-100" />
-//                 <div className="w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-sm mt-1 z-10" />
-//                 <div>
-//                   <p className="text-sm font-medium text-slate-800">Review approved</p>
-//                   <p className="text-[10px] text-slate-400 uppercase font-bold">2 hours ago</p>
-//                 </div>
-//               </div>
-//               <div className="flex gap-3 relative">
-//                 <div className="absolute left-[7px] top-4 bottom-[-20px] w-[2px] bg-slate-100" />
-//                 <div className="absolute left-[7px] top-4 bottom-[-20px] w-[2px] bg-slate-100" />
-//                 <div className="w-4 h-4 rounded-full bg-blue-500 border-2 border-white shadow-sm mt-1 z-10" />
-//                 <div>
-//                   <p className="text-sm font-medium text-slate-800">New submission</p>
-//                   <p className="text-[10px] text-slate-400 uppercase font-bold">5 hours ago</p>
-//                 </div>
-//               </div>
-//               <div className="flex gap-3">
-//                 <div className="w-4 h-4 rounded-full bg-amber-500 border-2 border-white shadow-sm mt-1 z-10" />
-//                 <div>
-//                   <p className="text-sm font-medium text-slate-800">Status changed</p>
-//                   <p className="text-[10px] text-slate-400 uppercase font-bold">1 day ago</p>
-//                 </div>
-//               </div>
-//             </div>
-//           </section>
-
-//           {/* Guidelines/Resources */}
-//           <section className="bg-indigo-600 rounded-2xl p-6 text-white shadow-lg shadow-indigo-100">
-//             <div className="flex items-center gap-2 mb-4">
-//               <AlertCircle size={20} />
-//               <h3 className="font-bold">Project Guide</h3>
-//             </div>
-//             <p className="text-indigo-100 text-sm leading-relaxed mb-6">
-//               Review the Brand Identity documentation before submitting the final assets to avoid feedback loops.
-//             </p>
-//             <button className="w-full py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-bold transition-colors backdrop-blur-sm">
-//               View Guidelines
-//             </button>
-//           </section>
-//         </div>
-
-//       </main>
-//     </div>
-//   );
-// };
-
-// export default App;
-
-// *************************************************************************************************
-// *********************************************code 2***********************************************
-// ****************************************************************************************************
-
-// import React, { useState } from 'react';
-// import {
-//   ArrowLeft,
-//   Calendar,
-//   Clock,
-//   FileText,
-//   CheckCircle2,
-//   AlertCircle,
-//   MoreHorizontal,
-//   User,
-//   MessageSquare,
-//   History,
-//   ExternalLink,
-//   ChevronRight,
-//   ShieldCheck,
-//   RotateCcw,
-//   UserPlus,
-//   Settings,
-//   BarChart3,
-//   Trash2
-// } from 'lucide-react';
-
-// const App = () => {
-//   const [task, setTask] = useState({
-//     id: 'TSK-4829',
-//     title: 'Brand Identity Guidelines - Phase 2',
-//     description: 'Finalize the secondary color palette, typography scales, and social media templates. Ensure all assets are exported in SVG and PNG formats for the marketing team.',
-//     status: 'Pending Review',
-//     priority: 'High',
-//     dueDate: 'Oct 12, 2024',
-//     assignee: { name: 'Sarah Jenkins', role: 'Lead Designer', avatar: 'SJ' },
-//     project: 'Rebrand 2024',
-//     estimatedHours: 20,
-//     loggedHours: 18.5
-//   });
-
-//   const [submissions, setSubmissions] = useState([
-//     {
-//       id: '3',
-//       date: 'Oct 10, 2024 • 04:45 PM',
-//       note: 'Final exports are ready. Adjusted the typography scale as requested. Please see the attached brand_v3_final.pdf.',
-//       files: ['brand_v3_final.pdf', 'social_assets_v1.zip'],
-//       status: 'Pending Review',
-//       feedback: ''
-//     },
-//     {
-//       id: '2',
-//       date: 'Oct 09, 2024 • 11:15 AM',
-//       note: 'Updated the blue shades to meet WCAG AA standards. Also added the typography scale.',
-//       files: ['brand_v2_draft.pdf'],
-//       status: 'Changes Requested',
-//       feedback: 'The typography scale for mobile needs one more pass. It looks too large.'
-//     },
-//     {
-//       id: '1',
-//       date: 'Oct 08, 2024 • 02:30 PM',
-//       note: 'Initial draft of the color palette.',
-//       files: ['brand_v1_draft.pdf'],
-//       status: 'Changes Requested',
-//       feedback: 'The blue is a bit too dark for web accessibility.'
-//     }
-//   ]);
-
-//   const [reviewFeedback, setReviewFeedback] = useState('');
-//   const [isProcessing, setIsProcessing] = useState(false);
-
-//   // Handle Manager Review Actions
-//   const handleReview = (status:any) => {
-//     setIsProcessing(true);
-//     setTimeout(() => {
-//       const updatedSubmissions = [...submissions];
-//       updatedSubmissions[0] = {
-//         ...updatedSubmissions[0],
-//         status: status,
-//         feedback: reviewFeedback
-//       };
-//       setSubmissions(updatedSubmissions);
-//       setTask({ ...task, status: status === 'Approved' ? 'Completed' : 'In Progress' });
-//       setReviewFeedback('');
-//       setIsProcessing(false);
-//     }, 800);
-//   };
-
-//   const getStatusBadge = (status:any) => {
-//     switch (status) {
-//       case 'Approved': return 'bg-emerald-50 text-emerald-700 border-emerald-100';
-//       case 'Changes Requested': return 'bg-amber-50 text-amber-700 border-amber-100';
-//       case 'Pending Review': return 'bg-blue-50 text-blue-700 border-blue-100';
-//       case 'Completed': return 'bg-emerald-50 text-emerald-700 border-emerald-100';
-//       default: return 'bg-slate-50 text-slate-600 border-slate-100';
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-12">
-//       {/* Manager Header */}
-//       <nav className="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between sticky top-0 z-10">
-//         <div className="flex items-center gap-4">
-//           <button className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-//             <ArrowLeft size={20} className="text-slate-600" />
-//           </button>
-//           <div className="flex items-center text-sm text-slate-500">
-//             <span>Management</span>
-//             <ChevronRight size={14} className="mx-1" />
-//             <span className="font-medium text-slate-900">Task Oversight</span>
-//           </div>
-//         </div>
-//         <div className="flex items-center gap-3">
-//           <button className="text-sm font-semibold text-slate-600 px-4 py-2 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200">
-//             Edit Details
-//           </button>
-//           <button className="text-sm font-semibold text-rose-600 px-4 py-2 hover:bg-rose-50 rounded-lg transition-colors flex items-center gap-2">
-//             <Trash2 size={16} />
-//             Delete Task
-//           </button>
-//         </div>
-//       </nav>
-
-//       <main className="max-w-6xl mx-auto mt-8 px-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-//         {/* Left Column: Task & Review */}
-//         <div className="lg:col-span-2 space-y-8">
-
-//           {/* Manager Summary Card */}
-//           <section className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
-//             <div className="flex items-start justify-between mb-6">
-//               <div>
-//                 <div className="flex items-center gap-3 mb-2">
-//                   <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded tracking-wide uppercase">
-//                     {task.id}
-//                   </span>
-//                   <span className={`text-xs font-bold px-2 py-1 rounded border uppercase ${getStatusBadge(task.status)}`}>
-//                     {task.status}
-//                   </span>
-//                 </div>
-//                 <h1 className="text-3xl font-bold text-slate-900">{task.title}</h1>
-//               </div>
-//               <button className="p-2 text-slate-400 hover:text-slate-600">
-//                 <Settings size={20} />
-//               </button>
-//             </div>
-
-//             <p className="text-slate-600 leading-relaxed mb-8">
-//               {task.description}
-//             </p>
-
-//             <div className="grid grid-cols-3 gap-4">
-//               <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-//                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 block">Due Date</span>
-//                 <span className="text-sm font-bold text-slate-700">{task.dueDate}</span>
-//               </div>
-//               <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-//                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 block">Estimated</span>
-//                 <span className="text-sm font-bold text-slate-700">{task.estimatedHours}h</span>
-//               </div>
-//               <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-//                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 block">Logged</span>
-//                 <span className="text-sm font-bold text-indigo-600">{task.loggedHours}h</span>
-//               </div>
-//             </div>
-//           </section>
-
-//           {/* Active Review Portal */}
-//           {submissions[0].status === 'Pending Review' && (
-//             <section className="bg-white rounded-2xl border-2 border-indigo-100 shadow-lg shadow-indigo-100/20 overflow-hidden ring-4 ring-indigo-50/50">
-//               <div className="bg-indigo-600 px-8 py-4 flex justify-between items-center text-white">
-//                 <h2 className="font-bold flex items-center gap-2">
-//                   <ShieldCheck size={18} />
-//                   Action Required: Review Latest Submission
-//                 </h2>
-//                 <span className="text-xs font-medium bg-white/20 px-2 py-1 rounded">Newest</span>
-//               </div>
-//               <div className="p-8">
-//                 <div className="mb-6">
-//                   <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Assignee's Note</p>
-//                   <p className="bg-slate-50 p-4 rounded-xl text-slate-700 border border-slate-100 italic text-sm">
-//                     "{submissions[0].note}"
-//                   </p>
-//                 </div>
-
-//                 <div className="mb-8">
-//                   <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Your Feedback</p>
-//                   <textarea
-//                     rows={3}
-//                     value={reviewFeedback}
-//                     onChange={(e) => setReviewFeedback(e.target.value)}
-//                     placeholder="Provide feedback or list required changes..."
-//                     className="w-full border border-slate-200 rounded-xl p-4 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all bg-white"
-//                   />
-//                 </div>
-
-//                 <div className="flex gap-3">
-//                   <button
-//                     onClick={() => handleReview('Changes Requested')}
-//                     disabled={isProcessing}
-//                     className="flex-1 bg-white border border-amber-200 text-amber-700 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-amber-50 transition-all shadow-sm"
-//                   >
-//                     <RotateCcw size={16} />
-//                     Request Changes
-//                   </button>
-//                   <button
-//                     onClick={() => handleReview('Approved')}
-//                     disabled={isProcessing}
-//                     className="flex-1 bg-emerald-600 text-white py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100"
-//                   >
-//                     <CheckCircle2 size={16} />
-//                     Approve Submission
-//                   </button>
-//                 </div>
-//               </div>
-//             </section>
-//           )}
-
-//           {/* Submission History List */}
-//           <section className="space-y-4">
-//             <h2 className="font-bold text-slate-800 text-lg flex items-center gap-2 px-2">
-//               <History size={18} className="text-slate-400" />
-//               Submission History
-//             </h2>
-//             <div className="space-y-4">
-//               {submissions.map((sub) => (
-//                 <div key={sub.id} className={`bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-all ${sub.status === 'Pending Review' ? 'opacity-100' : 'opacity-70 grayscale-[0.3]'}`}>
-//                   <div className="flex items-center justify-between px-6 py-4 border-b border-slate-50 bg-slate-50/30">
-//                     <div className="flex items-center gap-3">
-//                       <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">{sub.date}</span>
-//                       <span className={`text-[10px] font-bold px-2 py-1 rounded-full border uppercase tracking-wider ${getStatusBadge(sub.status)}`}>
-//                         {sub.status}
-//                       </span>
-//                     </div>
-//                     <div className="flex gap-2">
-//                       {sub.files.map(f => (
-//                         <button key={f} className="p-1.5 bg-white border border-slate-200 rounded text-slate-500 hover:text-indigo-600 hover:border-indigo-200 transition-all">
-//                           <ExternalLink size={14} />
-//                         </button>
-//                       ))}
-//                     </div>
-//                   </div>
-//                   <div className="p-6">
-//                     <p className="text-sm text-slate-700 mb-4">{sub.note}</p>
-//                     {sub.feedback && (
-//                       <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-100 flex gap-3">
-//                         <MessageSquare size={16} className="text-slate-400 mt-0.5 shrink-0" />
-//                         <div>
-//                           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Your Previous Feedback</p>
-//                           <p className="text-sm text-slate-600">{sub.feedback}</p>
-//                         </div>
-//                       </div>
-//                     )}
-//                   </div>
-//                 </div>
-//               ))}
-//             </div>
-//           </section>
-//         </div>
-
-//         {/* Right Column: Manager Sidebar */}
-//         <div className="space-y-6">
-
-//           {/* Team Management */}
-//           <section className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-//             <div className="flex justify-between items-center mb-6">
-//               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Assignee</h3>
-//               <button className="text-indigo-600 hover:bg-indigo-50 p-1.5 rounded-lg transition-colors">
-//                 <UserPlus size={18} />
-//               </button>
-//             </div>
-
-//             <div className="flex items-center gap-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
-//               <div className="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-inner">
-//                 {task.assignee.avatar}
-//               </div>
-//               <div className="flex-1">
-//                 <h4 className="font-bold text-slate-900 leading-tight">{task.assignee.name}</h4>
-//                 <p className="text-xs text-slate-500 font-medium">Design Department</p>
-//               </div>
-//               <div className="w-2 h-2 rounded-full bg-emerald-500" title="Online" />
-//             </div>
-
-//             <div className="mt-6 flex gap-2">
-//               <button className="flex-1 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
-//                 Message
-//               </button>
-//               <button className="flex-1 py-2 text-xs font-bold text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors">
-//                 Reassign
-//               </button>
-//             </div>
-//           </section>
-
-//           {/* Efficiency & Metrics */}
-//           <section className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 overflow-hidden relative">
-//             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
-//               <BarChart3 size={16} />
-//               Resource Efficiency
-//             </h3>
-
-//             <div className="space-y-6">
-//               <div>
-//                 <div className="flex justify-between text-sm font-bold mb-2">
-//                   <span className="text-slate-600">Time Usage</span>
-//                   <span className="text-indigo-600">92%</span>
-//                 </div>
-//                 <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-//                   <div className="bg-indigo-500 h-full rounded-full" style={{ width: '92%' }} />
-//                 </div>
-//               </div>
-
-//               <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-//                 <div className="flex gap-3">
-//                   <AlertCircle size={18} className="text-emerald-600 shrink-0 mt-0.5" />
-//                   <p className="text-xs text-emerald-800 leading-relaxed">
-//                     <span className="font-bold">On Track:</span> Assignee is working within the estimated range. Productivity is rated as <span className="font-bold">High</span>.
-//                   </p>
-//                 </div>
-//               </div>
-//             </div>
-//           </section>
-
-//           {/* Administrative Actions */}
-//           <section className="bg-slate-900 rounded-2xl p-6 text-white shadow-xl shadow-slate-200">
-//             <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Admin Controls</h3>
-//             <div className="space-y-3">
-//               <button className="w-full flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all border border-white/5">
-//                 <div className="flex items-center gap-3">
-//                   <Calendar size={16} className="text-slate-400" />
-//                   <span className="text-sm font-medium">Extend Deadline</span>
-//                 </div>
-//                 <ChevronRight size={14} className="text-slate-600" />
-//               </button>
-//               <button className="w-full flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all border border-white/5">
-//                 <div className="flex items-center gap-3">
-//                   <ShieldCheck size={16} className="text-slate-400" />
-//                   <span className="text-sm font-medium">Verify Compliance</span>
-//                 </div>
-//                 <ChevronRight size={14} className="text-slate-600" />
-//               </button>
-//             </div>
-//           </section>
-
-//         </div>
-
-//       </main>
-//     </div>
-//   );
-// };
-
-// export default App;
-
-
-// *************************************************************************************************
-// *********************************************code 3***********************************************
-// ****************************************************************************************************
-
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowLeft,
   Calendar,
   Clock,
-  FileText,
-  CheckCircle2,
-  AlertCircle,
   MoreHorizontal,
-  User,
   MessageSquare,
-  History,
-  ExternalLink,
   ChevronRight,
   ShieldCheck,
-  RotateCcw,
-  UserPlus,
   Settings,
   BarChart3,
   Trash2,
-  Info,
   Layers,
-  Paperclip,
   TrendingUp,
-  Mail,
 } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import SubmitTaskForm from "@/components/sections/SubmitTaskForm";
+import UserDataTasDetails from "@/components/sections/UserDataTasDetails";
+import { useCurrentUser } from "@/hooks/useFetchUser";
+import TaskReviewForm from "@/components/sections/TaskReviewForm";
 
 const TaskDetailsPage = () => {
   const params = useParams<{ id: string }>();
@@ -721,7 +29,7 @@ const TaskDetailsPage = () => {
 
   const [activeTab, setActiveTab] = useState("overview"); // 'overview', 'history', 'discussion'
 
-    const [task, setTask] = useState({
+  const [task, setTask] = useState({
     id: "TSK-4829",
     title: "Brand Identity Guidelines - Phase 2",
     description:
@@ -770,6 +78,9 @@ const TaskDetailsPage = () => {
     },
   ]);
 
+  const [isCreator,setIsCreator]=useState(false)
+  const [userData,setUserData]=useState()
+
   const [reviewFeedback, setReviewFeedback] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -777,6 +88,9 @@ const TaskDetailsPage = () => {
     const res = await api.get(`/task/${id}`);
     return res.data; // make sure backend returns project object
   };
+
+  const { data: user } =
+    useCurrentUser();
 
   const {
     data: taskData,
@@ -788,19 +102,29 @@ const TaskDetailsPage = () => {
     enabled: !!id,
   });
 
+  useEffect(()=>{
+if(user?.id===taskData?.createdBy?.id){
+    setIsCreator(true)
+    setUserData(user)
+  }else{
+    setIsCreator(false)
+    setUserData(taskData?.user)
+  }
+  },[user,taskData])
+
+  
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#fffdf5] flex flex-col items-center justify-center space-y-4 font-sans">
         <div className="w-12 h-12 border-4 border-amber-100 border-t-amber-500 rounded-full animate-spin"></div>
-        <p className="text-sm font-bold text-amber-900/40 uppercase tracking-widest italic">Loading Task...</p>
+        <p className="text-sm font-bold text-amber-900/40 uppercase tracking-widest italic">
+          Loading Task...
+        </p>
       </div>
     );
   }
   console.log(131, taskData);
-
-
-
-
 
   const getStatusBadge = (status: any) => {
     switch (status) {
@@ -935,7 +259,8 @@ const TaskDetailsPage = () => {
                   ))}
                 </div>
               </section>
-              <SubmitTaskForm task={taskData.task}/>
+              {isCreator? <TaskReviewForm task={taskData?.task} setTask={setTask}/>:<SubmitTaskForm task={taskData?.task} />}
+              
             </div>
           )}
 
@@ -989,7 +314,7 @@ const TaskDetailsPage = () => {
           )}
 
           {activeTab === "discussion" && (
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-8 h-[600px] flex flex-col animate-in fade-in duration-500">
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-8 h-150 flex flex-col animate-in fade-in duration-500">
               <div className="flex-1 overflow-y-auto space-y-6 pr-2">
                 <div className="flex gap-4">
                   <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-[10px] font-bold text-white shrink-0">
@@ -1048,37 +373,36 @@ const TaskDetailsPage = () => {
 
         {/* Right Sidebar (4 Cols) */}
         <div className="lg:col-span-4 space-y-6">
-          {/* Assignee Card */}
-          <section className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 overflow-hidden">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">
-                Active Assignee
-              </h3>
-              <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-200" />
-            </div>
 
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center font-bold text-xl shadow-xl shadow-slate-200 ring-4 ring-slate-50">
-                {task.assignee.avatar}
+          {userData&&<UserDataTasDetails user={userData} isCreator={isCreator}/>}
+                    {/* Activity Mini-Feed */}
+          <section className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Activity</h3>
+            <div className="space-y-5">
+              <div className="flex gap-3 relative">
+                <div className="absolute left-1.75 top-4 -bottom-5 w-0.5 bg-slate-100" />
+                <div className="w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-sm mt-1 z-10" />
+                <div>
+                  <p className="text-sm font-medium text-slate-800">Review approved</p>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold">2 hours ago</p>
+                </div>
               </div>
-              <div>
-                <h4 className="font-bold text-slate-900 text-lg leading-tight">
-                  {taskData?.user?.name}
-                </h4>
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">
-                  {taskData?.user?.role}
-                </p>
+              <div className="flex gap-3 relative">
+                <div className="absolute left-1.75 top-4 -bottom-5 w-0.5 bg-slate-100" />
+                <div className="absolute left-1.75 top-4 -bottom-5 w-0.5 bg-slate-100" />
+                <div className="w-4 h-4 rounded-full bg-blue-500 border-2 border-white shadow-sm mt-1 z-10" />
+                <div>
+                  <p className="text-sm font-medium text-slate-800">New submission</p>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold">5 hours ago</p>
+                </div>
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <button className="w-full flex items-center justify-center gap-2 py-3 bg-slate-50 hover:bg-slate-100 rounded-xl text-sm font-bold text-slate-700 transition-all border border-slate-200">
-                <Mail size={16} />
-                Message
-              </button>
-              <button className="w-full py-3 text-xs font-bold text-indigo-600 bg-indigo-50/50 hover:bg-indigo-100 rounded-xl transition-all border border-indigo-100/50">
-                Reassign Task
-              </button>
+              <div className="flex gap-3">
+                <div className="w-4 h-4 rounded-full bg-amber-500 border-2 border-white shadow-sm mt-1 z-10" />
+                <div>
+                  <p className="text-sm font-medium text-slate-800">Status changed</p>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold">1 day ago</p>
+                </div>
+              </div>
             </div>
           </section>
 
